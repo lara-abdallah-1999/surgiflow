@@ -1,0 +1,290 @@
+/* The shell owns viewport height; pages fill the remaining space. */
+.workspace-page {
+  min-width: 0;
+  container: workspace / inline-size;
+}
+.workspace-page > [data-workspace-page] {
+  height: 100%;
+  min-height: 0;
+  max-width: 100%;
+  overflow: auto;
+}
+.workspace-page :is(input, textarea, select) { max-width: 100%; }
+.workspace-page [data-responsive-grid] > * { min-width: 0; }
+.workspace-page [data-table-body] { min-height: 0; overflow: auto; overscroll-behavior: contain; }
+.workspace-page [data-workspace-panel] { min-width: 0; overflow: auto; overscroll-behavior: contain; }
+.workspace-page [data-page-toolbar] { height: auto; min-height: 38px; flex-wrap: wrap; row-gap: 8px; }
+.workspace-page [data-page-toolbar] > .flex { flex-wrap: wrap; max-width: 100%; }
+.workspace-page [data-page-toolbar] input { width: min(270px, 100%); }
+.workspace-page :is(.fixed, .absolute)[class*="w-["] { max-width: calc(100vw - 24px); }
+.workspace-page .fixed:is(section, [role="dialog"]) { max-height: calc(100dvh - 24px); overflow-y: auto; }
+.workspace-page [data-workspace-panel="anesthesia"] { height: auto; min-height: 100%; grid-template-rows: auto auto auto; }
+.workspace-page
+  [data-workspace-panel="anesthesia"]
+  > section {
+  height: auto;
+  min-height: 0;
+  overflow: visible;
+}
+
+.workspace-page
+  [data-workspace-panel="anesthesia"]
+  > section:nth-child(2) {
+  height: auto;
+  min-height: 0;
+}
+.workspace-page [data-workspace-panel="history"] [class*="grid-rows-7"] { grid-template-rows: repeat(7, minmax(44px, 1fr)); }
+.workspace-page .preop-tab-content { overflow: auto; }
+.workspace-page .workspace-actions { height: auto; min-height: 44px; flex-wrap: wrap; gap: 8px; padding-block: 8px; }
+.workspace-page .postop-workspace { grid-template-rows: auto minmax(0, 1fr) auto; }
+.workspace-page .postop-cards {
+  min-width: 0;
+  width: 100%;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  grid-auto-rows:
+    minmax(260px, 1fr);
+
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.workspace-page .postop-cards > * {
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+.workspace-page .postop-cards :is(
+  input,
+  textarea,
+  select,
+  button
+) {
+  min-width: 0;
+  max-width: 100%;
+}
+.workspace-page .postop-card-body { overflow: auto; }
+
+/* Compact patient identity stays visible; extra facts can be expanded. */
+.patient-context-header { position: relative; }
+.patient-context-toggle { position: absolute; right: 12px; top: 12px; z-index: 1; display: flex; align-items: center; gap: 4px; border-radius: 6px; border: 1px solid #ddd6fe; background: white; padding: 5px 8px; font-size: 11px; color: #6d28d9; }
+.patient-context-header[data-compact="true"][data-expanded="false"] .patient-context-grid { grid-template-columns: minmax(0, 1fr); }
+.patient-context-header[data-compact="true"][data-expanded="false"] .patient-context-grid > section:not(:first-child) { display: none; }
+.patient-context-header[data-compact="true"] .patient-context-grid > section:first-child { padding-right: 112px; }
+.patient-context-header[data-compact="true"][data-expanded="false"] .patient-context-grid > section:first-child > div { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 12px; }
+.patient-context-header[data-compact="true"][data-expanded="false"] .patient-context-grid p { margin-top: 0; }
+.patient-context-header[data-compact="true"][data-expanded="true"] .patient-context-grid { max-height: 45dvh; overflow: auto; }
+.app-sidebar[data-overlay="true"] { position: fixed; inset: 0 auto 0 0; z-index: 250; box-shadow: 12px 0 30px #0f172a25; }
+.app-shell:has(.app-sidebar[data-overlay="true"]) { padding-left: 60px; }
+.sidebar-navigation { scrollbar-width: thin; }
+.sidebar-navigation::-webkit-scrollbar { width: 4px; }
+.app-sidebar { overflow-x: clip; }
+
+@container workspace (max-width: 1100px) {
+  .postop-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@container workspace (max-width: 500px) {
+  [data-responsive-table-row] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 6px 10px !important;
+    padding: 8px 10px !important;
+  }
+
+  [data-cell-label]:not([data-cell-label="Patient"]) {
+    gap: 4px;
+  }
+
+  [data-cell-label]:not([data-cell-label="Patient"])::before {
+    font-size: 7.5px;
+  }
+}
+@container workspace (max-width: 760px) {
+  [data-responsive-table-header] {
+    display: none !important;
+  }
+
+  [data-table-body] {
+    align-content: start;
+    padding: 6px 8px;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  [data-responsive-table-row] {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+
+    margin: 0 0 6px !important;
+    padding: 9px 12px !important;
+
+    gap: 7px 16px !important;
+
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 10px;
+
+    background: white;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+
+    align-content: start !important;
+  }
+
+  /* Patient identity stays the main row */
+  [data-cell-label="Patient"] {
+    grid-column: 1 / -1;
+
+    padding-bottom: 7px;
+    margin-bottom: 1px;
+
+    border-bottom: 1px solid #f1f5f9;
+  }
+
+  /*
+   * All other fields:
+   * label + value horizontally instead of stacked.
+   */
+  [data-cell-label]:not([data-cell-label="Patient"]) {
+    display: flex !important;
+    align-items: center;
+    gap: 6px;
+
+    min-width: 0;
+    min-height: 24px;
+
+    white-space: nowrap;
+  }
+
+  [data-cell-label]:not([data-cell-label="Patient"])::before {
+    content: attr(data-cell-label);
+
+    display: inline-block;
+    flex: 0 0 auto;
+
+    margin: 0;
+
+    font-size: 8px;
+    line-height: 1;
+
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+
+    color: #94a3b8;
+  }
+
+  /*
+   * Patient doesn't need "PATIENT" written above it.
+   */
+  [data-cell-label="Patient"]::before {
+    display: none !important;
+    content: none !important;
+  }
+
+  [data-responsive-table-row] .truncate {
+    min-width: 0;
+
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  [data-responsive-table-row] [class*="rounded-full"] {
+    width: fit-content;
+  }
+
+  /* Keep the colored left indicator compact */
+  [data-responsive-table-row] > span.absolute:first-child {
+    top: 8px !important;
+    bottom: 8px !important;
+  }
+}
+
+@container workspace (max-width: 720px) {
+  [data-responsive-table-header] {
+    display: none;
+  }
+
+  [data-responsive-table-row] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    height: auto;
+    min-height: 0;
+    gap: 10px 16px;
+    padding: 12px;
+  }
+
+  [data-cell-label] {
+    min-width: 0;
+    white-space: normal;
+  }
+
+  [data-cell-label]::before {
+    content: attr(data-cell-label);
+    display: block;
+    margin-bottom: 3px;
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #94a3b8;
+  }
+
+  [data-responsive-table-row] .truncate {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+}
+
+@container workspace (max-width: 850px) {
+  [data-responsive-grid="4"] { grid-template-columns: repeat(2, minmax(0, 1fr)); height: auto; }
+  [data-responsive-grid="3"] { grid-template-columns: minmax(0, 1fr); overflow: auto; }
+  [data-responsive-grid="2"]:not(.preop-workspace) { grid-template-columns: minmax(0, 1fr); overflow: auto; }
+  [data-responsive-grid] > :is(.col-span-2, .row-span-2) { grid-column: auto; grid-row: auto; }
+  [data-workspace-panel] { height: auto; min-height: 100%; }
+  [data-workspace-panel] [data-responsive-grid] { height: auto; }
+  [data-workspace-panel="anesthesia"] > section:last-child { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  [data-workspace-panel="admission"] .grid-cols-6 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  [data-workspace-panel="admission"] :is(.col-span-2, .col-span-3, .col-span-4, .col-span-6) { grid-column: auto; }
+  .preop-workspace { grid-template-columns: 86px minmax(0, 1fr); }
+  .workspace-actions { grid-template-columns: minmax(0, 1fr); }
+  [data-page-toolbar] { align-items: flex-start; }
+}
+
+@container workspace (max-width: 600px) {
+  @container workspace (max-width: 600px) {
+  [data-responsive-table-row] {
+    grid-template-columns: minmax(0, 1fr) !important;
+  } }
+  [data-responsive-grid="4"].postop-cards { grid-template-columns: minmax(0, 1fr); }
+  .preop-workspace { display: flex; flex-direction: column; }
+  .preop-workspace > .contents { display: contents; }
+  .preop-workspace .preop-tabs { flex: none; }
+  .preop-tabs > .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: auto; }
+  .preop-tabs button { min-height: 65px; }
+  .preop-tab-content { flex: 1; height: auto; }
+  [data-workspace-page] :is(section, main, aside)[data-responsive-grid] > * { min-width: 0; }
+  [data-workspace-page] [class*="min-w-["] { min-width: 0; }
+  [data-workspace-page] input[class*="w-["] { width: 100%; }
+}
+
+@media (max-width: 639px) {
+  .patient-context-header { max-height: 48dvh; overflow: auto; }
+  .patient-context-grid { grid-template-columns: minmax(0, 1fr); }
+  .app-sidebar[data-collapsed="true"] { width: 52px; }
+  .app-shell:has(.app-sidebar[data-overlay="true"]) { padding-left: 52px; }
+}
+@media (max-height: 650px) {
+  .patient-context-grid { padding-block: 4px; }
+  .patient-context-grid > section:first-child { padding-block: 6px; }
+  .workspace-page .workspace-actions { padding-block: 4px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
