@@ -6,7 +6,7 @@ export const ROW_HEIGHT = 48;
 export const MIN_PAGE_SIZE = 1;
 
 
-export const accountingDemographics: Record<
+export const cashierDemographics: Record<
   string,
   {
     mrn: string;

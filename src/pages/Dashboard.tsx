@@ -625,7 +625,7 @@ return (
                 icon={<CreditCard size={10} />}
                 tone="indigo"
                 onClick={() =>
-                  navigate("/accounting")
+                  navigate("/cashier")
                 }
               />
 

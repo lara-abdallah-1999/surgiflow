@@ -5,7 +5,7 @@ const config = ts.readConfigFile('tsconfig.app.json', ts.sys.readFile);
 const parsed = ts.parseJsonConfigFileContent(config.config, ts.sys, process.cwd());
 const program = ts.createProgram(parsed.fileNames, parsed.options);
 const checker = program.getTypeChecker();
-for (const page of ['PreOp','PostOp','Accounting','WaitingList','SurgeryReception','Surgery','Planning','Planning2','Dashboard','Patients']) {
+for (const page of ['PreOp','PostOp','Cashier','WaitingList','SurgeryReception','Surgery','Planning','Planning2','Dashboard','Patients']) {
   const file = program.getSourceFile(`src/pages/${page}.tsx`);
   const fn = file.statements.find(n=>ts.isFunctionDeclaration(n)&&n.name?.text===page);
   const firstView = fn.body.statements.find(n => ts.isReturnStatement(n) || ts.isIfStatement(n) && /return\s*\(\s*</.test(n.getText(file)));

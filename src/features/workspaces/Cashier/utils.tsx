@@ -1,4 +1,4 @@
-import { accountingDemographics } from "./config";
+import { cashierDemographics } from "./config";
 import { type Period, type SortKey } from "./types";
 
 
@@ -47,11 +47,11 @@ export function getPatientMrn(
 
   if (
     record.id &&
-    accountingDemographics[
+    cashierDemographics[
       record.id
     ]
   ) {
-    return accountingDemographics[
+    return cashierDemographics[
       record.id
     ].mrn;
   }
@@ -86,11 +86,11 @@ export function getPatientAge(
 
   if (
     record.id &&
-    accountingDemographics[
+    cashierDemographics[
       record.id
     ]
   ) {
-    return accountingDemographics[
+    return cashierDemographics[
       record.id
     ].age;
   }
@@ -124,11 +124,11 @@ export function getPatientGender(
 
   if (
     record.id &&
-    accountingDemographics[
+    cashierDemographics[
       record.id
     ]
   ) {
-    return accountingDemographics[
+    return cashierDemographics[
       record.id
     ].gender;
   }

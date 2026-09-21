@@ -28,7 +28,7 @@ try {
  assert.equal((await record()).status,'Ready');assert.equal(await evaluate('location.pathname'),'/pre-op/SRG-2048');assert.ok(await evaluate('document.body.innerText.includes("Pre-Op successful")'));
  console.log('PASS: OR admission, Start Pre-Op, and Confirm Ready remain in the workspace.');
  await go('/');await evaluate('(async()=>{const {useSurgeryStore}=await import("/src/store/surgeryStore.ts");useSurgeryStore.getState().updateSurgery("SRG-2048",{status:"Payment Pending",paymentStatus:"Pending",paidAmount:0,cost:100});})()');
- await go('/accounting?case=SRG-2048');await click('Use full balance');await click('Confirm payment');
+ await go('/cashier?case=SRG-2048');await click('Use full balance');await click('Confirm payment');
  assert.equal((await record()).paymentStatus,'Paid');assert.ok(await evaluate('document.body.innerText.includes("Print receipt")'));
  console.log('PASS: Direct payment records the existing payment action and displays the printable receipt.');
  await go('/');await evaluate('(async()=>{const {useSurgeryStore}=await import("/src/store/surgeryStore.ts");useSurgeryStore.getState().updateSurgery("SRG-2048",{status:"Recovery",surgeryCompletedAt:new Date().toISOString(),recoveryAwakeningConfirmed:false,recoveryAwakeningObservations:[]});})()');

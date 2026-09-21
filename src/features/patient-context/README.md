@@ -4,7 +4,7 @@ The existing URL identifies a surgery and `useSurgeryStore` supplies its live re
 
 Workflow lists accept `?case=<id>`. Cashier opens the selected case directly: unpaid cases display the payment form and paid cases display a printable receipt. Refresh and browser navigation retain the selected case. Legacy Cashier highlight navigation remains supported.
 
-`PatientContextHeader` displays only recorded case values. `PatientContextTools` places page-owned actions and status details in the header using a React portal. The portal context holds a DOM host, not patient state. Original workflow handlers, timer state, and saving behavior remain in their pages.
+`PatientContextHeader` displays only recorded case values. `PatientContextTools` places the page-owned OR admission, duration, or upcoming visit count beneath Allergies in the header using a React portal. The portal context holds a DOM host, not patient state. Original workflow handlers, timer state, and saving behavior remain in their pages.
 
 The sidebar reads the existing Copilot analyzer for the current phase; checkmarks require recorded completion evidence. Recovery belongs to Surgery until transfer is recorded. Pre-Op opens the case details directly, including the existing admission and Start Pre-Op actions. Revisiting later phases cannot reapply an earlier Ready status. Confirming Pre-Op readiness stays on the page with a toast.
 

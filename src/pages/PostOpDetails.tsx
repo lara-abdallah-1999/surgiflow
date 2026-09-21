@@ -1,6 +1,6 @@
-import { ArrowLeft,CalendarDays,Check,ClipboardCheck,FileText,HeartPulse,Save,X } from "lucide-react";
+import { CalendarDays,Check,ClipboardCheck,FileText,HeartPulse,Save,X } from "lucide-react";
 import { PatientContextTools } from "../features/patient-context/PatientContextTools";
-import { HeaderInfo,QuickFact } from "../features/workspaces/PostOpDetails/components";
+import { QuickFact } from "../features/workspaces/PostOpDetails/components";
 import { usePostOpDetailsWorkspace } from '../features/workspaces/PostOpDetails/hooks/usePostOpDetailsWorkspace';
 import { PostOpExpandedList } from '../features/workspaces/PostOpDetails/panels/PostOpExpandedList';
 import { PostOpLifestyleCard } from '../features/workspaces/PostOpDetails/panels/PostOpLifestyleCard';
@@ -9,7 +9,7 @@ import { PostOpOrdersCard } from '../features/workspaces/PostOpDetails/panels/Po
 import { PostOpReportEditor } from '../features/workspaces/PostOpDetails/panels/PostOpReportEditor';
 import { PostOpVisitsCard } from '../features/workspaces/PostOpDetails/panels/PostOpVisitsCard';
 import { type PatientCondition } from "../features/workspaces/PostOpDetails/types";
-import { formatDischargeDateTime,getNextVisitLabel,hasRichTextContent,stripHtml } from "../features/workspaces/PostOpDetails/utils";
+import { formatDischargeDateTime,getNextVisitLabel,stripHtml } from "../features/workspaces/PostOpDetails/utils";
 import { WorkspaceNotification } from "../components/layout/WorkspaceNotification";
 
 
@@ -122,25 +122,17 @@ if (!selected) {
           onClose={() => setToast(null)}
         />
       <div className="h-full min-h-0">
-            <section className="flex h-full min-h-0 w-full flex-col overflow-hidden rounded-xl border border-cyan-100 bg-white shadow-sm">
-              <div className="postop-workspace grid h-full min-h-0 grid-rows-[66px_minmax(0,1fr)_58px]">
+            <section className="flex h-full min-h-0 w-full flex-col overflow-hidden">
+              <div className="postop-workspace grid h-full min-h-0 grid-rows-[auto_minmax(0,1fr)] gap-2">
                 {/* HEADER */}
 
-                <PatientContextTools>
-                  <button type="button" onClick={() => navigate("/post-op")} aria-label="Back to Post-Op patients" className="flex h-7 items-center gap-1 rounded-lg border border-cyan-100 bg-white px-2 text-cyan-600 hover:bg-cyan-50"><ArrowLeft size={13} /> Back</button>
-                  <HeaderInfo label="Pain" value={postOp.painLevel + "/10"} />
-                  <HeaderInfo label="Status" value={postOp.discharged ? "Discharged" : "Active Plan"} />
-                  <HeaderInfo label="Wound" value={postOp.woundStatus || "No note"} accent />
-                  <HeaderInfo label="Follow-Ups" value={postOp.followUps.filter((item) => item.status !== "Completed").length + " pending"} />
-                  <HeaderInfo label="Visits" value={postOp.visits.filter((item) => item.status === "Upcoming").length + " upcoming"} />
-                  <HeaderInfo label="Report" value={hasRichTextContent(surgeonReport) ? "Added" : "Not added"} />
-                </PatientContextTools>
+                <PatientContextTools label="Upcoming visits">{postOp.visits.filter((item) => item.status === "Upcoming").length}</PatientContextTools>
 
                 {/* ============================================================ */}
                 {/* POST-OP CLINICAL SUMMARY                                        */}
                 {/* ============================================================ */}
 
-                <section data-responsive-grid="4" className="grid h-[66px] shrink-0 grid-cols-4 divide-x divide-slate-100 border-b border-slate-100 bg-slate-50/45">
+                <section data-responsive-grid="4" className="grid min-h-[66px] shrink-0 grid-cols-4 divide-x divide-slate-100 rounded-xl border border-cyan-100 bg-white shadow-sm">
                   <QuickFact
                     label="Surgeon Report"
                     value={
@@ -231,9 +223,10 @@ if (!selected) {
                 {/* MAIN WORKSPACE                                               */}
                 {/* ============================================================ */}
 
+                <div className="postop-scroll-content flex min-h-0 min-w-0 flex-col gap-2 overflow-y-auto overflow-x-hidden">
                 <section
                   data-responsive-grid="4"
-                  className="postop-cards grid min-h-0 min-w-0 w-full grid-cols-[repeat(4,minmax(0,1fr))] gap-2 bg-slate-50/40 p-2"
+                  className="postop-cards grid min-h-0 min-w-0 w-full grid-cols-[repeat(4,minmax(0,1fr))] gap-2"
                   >
                   {/* MEDICATIONS */}
 
@@ -386,6 +379,7 @@ if (!selected) {
                     </button>
                   </div>
                 </footer>
+                </div>
               </div>
             </section>
             {/* NOTE ADD / EDIT PANEL */}
@@ -555,14 +549,6 @@ if (!selected) {
             {/* VIEW ALL ITEMS PANEL */}
             {expandedList && (
               <>
-                <button
-                  type="button"
-                  aria-label="Close expanded list"
-                  onClick={() =>
-                    setExpandedList(null)
-                  }
-                  className="fixed inset-0 z-[70] bg-slate-900/10"
-                />
 
                 <PostOpExpandedList expandedList={expandedList} setExpandedList={setExpandedList} postOp={postOp} updateMedicationStatus={updateMedicationStatus} updateMedication={updateMedication} deleteMedication={deleteMedication} updateOrderStatus={updateOrderStatus} updateOrderResult={updateOrderResult} updateOrder={updateOrder} deleteOrder={deleteOrder} updateLifestyleHabit={updateLifestyleHabit} removeLifestyleHabit={removeLifestyleHabit} updateVisitStatus={updateVisitStatus} updateVisitResult={updateVisitResult} updateVisit={updateVisit} deleteVisit={deleteVisit} />
               </>

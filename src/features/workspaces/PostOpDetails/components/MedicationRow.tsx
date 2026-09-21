@@ -1,3 +1,4 @@
+import { HoverDetailsPanel } from "./HoverDetailsPanel";
 import { type Medication, type MedicationStatus } from "../types";
 import { useState } from "react";
 import { Pill, X } from "lucide-react";
@@ -86,7 +87,7 @@ export function MedicationRow({
       </div>
 
       {showHoverDetails && (
-        <div className="pointer-events-none invisible absolute bottom-[calc(100%+6px)] left-0 z-[120] w-[285px] translate-y-1 rounded-xl border border-slate-200 bg-white p-2.5 opacity-0 shadow-[0_12px_30px_rgba(15,23,42,0.16)] transition-all duration-150 group-hover/item:visible group-hover/item:translate-y-0 group-hover/item:opacity-100">
+        <HoverDetailsPanel>
           <div className="mb-2 border-b border-slate-100 pb-2">
             <p className="text-[10px] font-bold text-slate-700">
               {item.name}
@@ -122,7 +123,7 @@ export function MedicationRow({
               </div>
             )}
           </div>
-        </div>
+        </HoverDetailsPanel>
       )}
 
       <StatusPopover

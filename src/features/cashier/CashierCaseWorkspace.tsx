@@ -380,7 +380,7 @@ export function CashierCaseWorkspace({
   }
 
   return (
-    <div className="flex h-full min-h-0 flex-col overflow-hidden bg-slate-50 p-3">
+    <div data-workspace-page="Cashier" className="flex h-full min-h-0 flex-col overflow-hidden bg-slate-50 p-3">
       <div
         className="
           grid
@@ -436,9 +436,9 @@ export function CashierCaseWorkspace({
                   gap-2
                   rounded-lg
                   bg-indigo-600
-                  px-4
-                  py-2
-                  text-[11px]
+                  px-3
+                  py-1
+                  !text-[12px]
                   font-semibold
                   text-white
                   transition

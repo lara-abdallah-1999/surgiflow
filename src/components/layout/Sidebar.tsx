@@ -18,6 +18,7 @@ import {
   Stethoscope,
   UserCheck,
   UsersRound,
+  Calendar1Icon,
 } from "lucide-react";
 
 import {
@@ -91,6 +92,13 @@ const NAV_SECTIONS: NavSection[] = [
         subtitle: "Daily room sequence",
       },
       {
+        label: "Planning2",
+        path: "/planning2",
+        icon: Calendar1Icon,
+        tone: "violet",
+        subtitle: "Daily room sequence",
+      },
+      {
         label: "Today",
         path: "/waiting-list",
         icon: ListOrdered,
@@ -119,7 +127,7 @@ const NAV_SECTIONS: NavSection[] = [
       },
       {
         label: "Cashier",
-        path: "/accounting",
+        path: "/cashier",
         icon: CreditCard,
         tone: "indigo",
         subtitle: "Financial clearance",

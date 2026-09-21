@@ -1,7 +1,7 @@
 import ts from 'typescript';
 import fs from 'node:fs';
 import path from 'node:path';
-const files = ['Accounting','WaitingList','Surgery','PreOp','PostOp'].map(n=>`src/pages/${n}.tsx`);
+const files = ['Cashier','WaitingList','Surgery','PreOp','PostOp'].map(n=>`src/pages/${n}.tsx`);
 files.push('src/features/workspaces/Recovery/hooks/useRecoveryWorkspace.ts');
 for (const file of files) {
   let source = fs.readFileSync(file,'utf8');

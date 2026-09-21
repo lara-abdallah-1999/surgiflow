@@ -1,6 +1,6 @@
 import { useEffect,useMemo,useRef,useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "sonner";
+import { showNotification } from "../../../../components/notifications/showNotification";
 import { useTablePageSize } from "../../../../hooks/useTablePageSize";
 import { useSurgeryStore } from "../../../../store/surgeryStore";
 import { ROW_HEIGHT,availability } from "../config";
@@ -277,16 +277,12 @@ export function useWaitingListWorkspace() {
 
   function confirmBooking() {
     if (!selectedSurgery) {
-      toast.error(
-        "Unable to book surgery. Please select a patient.",
-      );
+      showNotification({ type: "error", title: "Unable to book surgery", message: "Unable to book surgery. Please select a patient." });
       return;
     }
 
     if (!selectedTime) {
-      toast.error(
-        "Please select an available surgery time.",
-      );
+      showNotification({ type: "error", title: "Unable to book surgery", message: "Please select an available surgery time." });
       return;
     }
 
@@ -342,9 +338,7 @@ export function useWaitingListWorkspace() {
         error,
       );
 
-      toast.error(
-        "Unable to book the surgery. Please try again.",
-      );
+      showNotification({ type: "error", title: "Unable to book surgery", message: "Unable to book the surgery. Please try again." });
     }
   }
 

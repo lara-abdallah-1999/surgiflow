@@ -8,7 +8,7 @@ import { isPatientDateInPeriod } from "../utils";
 
 export function usePatientsWorkspace() {
   const rowsContainerRef = useRef<HTMLDivElement | null>(null);
-  const pageSize = useTablePageSize(rowsContainerRef, 52);
+  const pageSize = useTablePageSize(rowsContainerRef, 48);
 
   const navigate = useNavigate();
   const surgeries = useSurgeryStore((state) => state.surgeries);

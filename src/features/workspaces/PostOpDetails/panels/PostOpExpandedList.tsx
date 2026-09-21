@@ -1,3 +1,4 @@
+import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { FollowUpRow,LifestyleHabitRow,MedicationRow,VisitRow } from "../components";
 import { type ExpandedList,type FollowUpOrder,type Medication,type MedicationStatus,type OrderStatus,type PostOpState,type PostOpVisit,type VisitStatus } from "../types";
@@ -22,10 +23,12 @@ type Props = {
 };
 
 export function PostOpExpandedList({ expandedList, setExpandedList, postOp, updateMedicationStatus, updateMedication, deleteMedication, updateOrderStatus, updateOrderResult, updateOrder, deleteOrder, updateLifestyleHabit, removeLifestyleHabit, updateVisitStatus, updateVisitResult, updateVisit, deleteVisit }: Props) {
-  return (<section data-workspace-panel="PostOpExpandedList" className="fixed left-1/2 top-1/2 z-[80] w-[680px] max-w-[82vw] -translate-x-1/2 -translate-y-1/2 overflow-visible rounded-xl border border-slate-200 bg-white shadow-[0_18px_50px_rgba(15,23,42,0.16)]">
-                  <div data-page-toolbar="true" className="flex h-[50px] items-center justify-between border-b border-slate-100 px-3.5">
+  return createPortal(<>
+    <button type="button" aria-label="Close expanded list" onClick={() => setExpandedList(null)} className="fixed inset-0 z-[270] bg-slate-900/20" />
+    <section role="dialog" aria-modal="true" aria-labelledby="expanded-list-title" className="expanded-list-dialog fixed inset-0 z-[280] m-auto flex h-fit max-h-[90dvh] w-[min(1100px,calc(100vw-32px))] flex-col rounded-xl border border-slate-200 bg-white shadow-[0_18px_50px_rgba(15,23,42,0.16)]">
+                  <div data-page-toolbar="true" className="flex min-h-[64px] shrink-0 items-center justify-between border-b border-slate-100 px-3.5">
                     <div>
-                      <h3 className="text-[13px] font-bold text-slate-800">
+                      <h3 id="expanded-list-title" className="text-[13px] font-bold text-slate-800">
                         {expandedList ===
                         "medications"
                           ? "All Medications"
@@ -48,13 +51,14 @@ export function PostOpExpandedList({ expandedList, setExpandedList, postOp, upda
                       onClick={() =>
                         setExpandedList(null)
                       }
+                      aria-label="Close expanded list"
                       className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-400 hover:bg-slate-50"
                     >
                       <X size={14} />
                     </button>
                   </div>
 
-                  <div data-responsive-grid="2" className="grid max-h-[420px] grid-cols-2 content-start gap-2 overflow-y-auto overflow-x-visible p-3 [grid-auto-rows:52px]">
+                  <div className="grid min-h-0 grid-cols-1 content-start gap-3 overflow-y-auto p-4 md:grid-cols-2 auto-rows-min">
                     {expandedList ===
                       "medications" &&
                       postOp.medications.map(
@@ -196,5 +200,5 @@ export function PostOpExpandedList({ expandedList, setExpandedList, postOp, upda
                         ),
                       )}
                   </div>
-                </section>);
+                </section></>, document.body);
 }

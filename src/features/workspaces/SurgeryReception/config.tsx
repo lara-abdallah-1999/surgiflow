@@ -76,7 +76,7 @@ export const admissionFormItems: AdmissionFormItem[] = [
 // `useSurgeryStore` exactly (SRG-2048, SRG-2051, ...). Reception used to
 // keep its own made-up patient list, completely disconnected from the
 // rest of the app, so "Sarah Haddad" in Reception was not the same
-// record as "Sarah Haddad" in Accounting/Pre-Op/Surgery. The demographic
+// record as "Sarah Haddad" in Cashier/Pre-Op/Surgery. The demographic
 // fields below (mrn/age/gender) don't exist on the shared Surgery record,
 // so they stay here as reception-only info, keyed by the real surgery id.
 export const receptionDemographics: Record<

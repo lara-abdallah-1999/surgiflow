@@ -11,7 +11,7 @@ export default function Patients() {
 return (
     <div data-workspace-page="Patients" className="h-[calc(100vh-72px)] min-h-0 overflow-hidden bg-slate-50 p-2">
       <div className="flex h-full min-h-0 flex-col gap-2">
-        <div data-responsive-grid="4" className="grid grid-cols-4 gap-2">
+        <div data-responsive-grid="4" className="grid shrink-0 grid-cols-4 gap-2">
           <PatientStat
             label="Total Patients"
             value={totalPatients}
@@ -413,7 +413,7 @@ return (
             )}
           </div>
 
-          <div className="flex min-h-[48px] items-center justify-between border-t border-slate-100 bg-slate-50/30 px-3">
+          <div className="flex min-h-[48px] shrink-0 items-center justify-between border-t border-slate-100 bg-slate-50/30 px-3">
             <div className="flex items-center gap-2 text-[9px] text-slate-400">
               <span>
                 Showing{" "}

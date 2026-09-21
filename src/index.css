@@ -76,7 +76,7 @@ textarea {
 
 /* The shell owns available height, including the optional patient context. */
 .workspace-page > div[class*="100vh-"] { height: 100%; }
-.patient-context-grid { grid-template-columns: minmax(190px, 1.2fr) minmax(175px, 1fr) minmax(180px, 1.1fr) minmax(165px, .9fr); }
+.patient-context-grid { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1.1fr) minmax(0, .9fr); }
 .app-sidebar[data-collapsed="true"] .sidebar-clock { display: none; }
 .app-sidebar:hover .sidebar-collapsed-logo,
 .app-sidebar:focus-within .sidebar-collapsed-logo { opacity: 0; }
@@ -95,4 +95,3 @@ textarea {
   .patient-context-header { max-height: 38dvh; overflow-y: auto; }
   .patient-context-grid { grid-template-columns: minmax(0, 1fr); }
 }
-

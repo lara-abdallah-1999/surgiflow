@@ -12,8 +12,8 @@ export function resolveSelectedCase(surgeries: readonly Surgery[], pathname: str
     const linked = surgeries.filter((surgery) => surgery.patientId === id);
     return linked.length === 1 ? linked[0] : undefined;
   }
-  if (!["/accounting", "/reception", "/pre-op", "/surgery", "/post-op"].includes(pathname)) return undefined;
-  const id = new URLSearchParams(search).get("case") ?? (pathname === "/accounting" ? highlightedId : undefined);
+  if (!["/cashier", "/reception", "/pre-op", "/surgery", "/post-op"].includes(pathname)) return undefined;
+  const id = new URLSearchParams(search).get("case") ?? (pathname === "/cashier" ? highlightedId : undefined);
   return surgeries.find((surgery) => surgery.id === id);
 }
 
@@ -25,15 +25,15 @@ export function getCaseJourney(surgery: Surgery) {
   const transferred = Boolean((surgery as Surgery & { transferredAt?: string }).transferredAt);
   const items = [
     { label: "Reception", path: `/reception/${id}`, complete: Boolean(surgery.receptionCompletedAt) },
-    { label: "Cashier", path: `/accounting?case=${id}`, complete: surgery.paymentStatus === "Paid" },
+    { label: "Cashier", path: `/cashier?case=${id}`, complete: surgery.paymentStatus === "Paid" },
     { label: "Pre-Op", path: `/pre-op/${id}`, complete: surgery.preOpCompleted === true || surgery.preOpStatus === "Ready" },
     { label: "Surgery", path: `/surgery/${id}`, complete: Boolean(surgery.surgeryCompletedAt) && transferred },
-    { label: "Post-Op", path: `/post-op/${id}`, complete: surgery.status === "Discharged" },
+    { label: "Post-Op", path: `/post-op/${id}`, complete: surgery.postOpCompleted === true || surgery.status === "Discharged" },
   ];
   return items.map((item) => ({
   ...item,
   state: (
-    item.label === "Cashier" && surgery.paymentStatus === "Paid"
+    (item.label === "Cashier" || item.label === "Post-Op") && item.complete
       ? "complete"
       : item.label === current && surgery.status !== "Discharged"
         ? "current"
@@ -46,6 +46,6 @@ export function getCaseJourney(surgery: Surgery) {
 
 /** Keep context when Copilot sends a case to a workflow list. */
 export function withCaseContext(path: string, caseId: string) {
-  if (!["/accounting", "/reception", "/pre-op", "/surgery", "/post-op"].includes(path)) return path;
+  if (!["/cashier", "/reception", "/pre-op", "/surgery", "/post-op"].includes(path)) return path;
   return `${path}?case=${encodeURIComponent(caseId)}`;
 }

@@ -29,7 +29,7 @@ test("detail routes resolve the exact store record, including encoded IDs and re
 test("invalid details never fall back to another patient", () => {
   assert.equal(resolveSelectedCase(surgeries, "/surgery/missing", "?case=case-2"), undefined);
   assert.equal(resolveSelectedCase(surgeries, "/surgery/%bad"), undefined);
-  assert.equal(resolveSelectedCase([], "/accounting", "?case=case-2"), undefined);
+  assert.equal(resolveSelectedCase([], "/cashier", "?case=case-2"), undefined);
 });
 
 test("patient directory resolves only an unambiguous exact link", () => {
@@ -39,8 +39,8 @@ test("patient directory resolves only an unambiguous exact link", () => {
 });
 
 test("Cashier URL context overrides legacy highlight state and survives direct links", () => {
-  assert.equal(resolveSelectedCase(surgeries, "/accounting", "?case=case-2&panel=receipt", base.id), surgeries[1]);
-  assert.equal(resolveSelectedCase(surgeries, "/accounting", "", base.id), base);
+  assert.equal(resolveSelectedCase(surgeries, "/cashier", "?case=case-2&panel=receipt", base.id), surgeries[1]);
+  assert.equal(resolveSelectedCase(surgeries, "/cashier", "", base.id), base);
   assert.equal(resolveSelectedCase(surgeries, "/pre-op", "?case=case%2F1"), base);
 });
 
@@ -75,11 +75,20 @@ test("journey navigation preserves admission gates and never mutates records", (
   const record = Object.freeze({ ...base, status: "In Progress" });
   assert.equal(getCaseJourney(record)[2].path, "/pre-op/case%2F1");
   assert.equal(getCaseJourney({ ...base, status: "Pre-Op" })[2].path, "/pre-op/case%2F1");
-  assert.equal(getCaseJourney(record)[1].path, "/accounting?case=case%2F1");
+  assert.equal(getCaseJourney(record)[1].path, "/cashier?case=case%2F1");
 });
 
 test("Copilot list navigation carries case context without changing detail destinations", () => {
   assert.equal(withCaseContext("/pre-op", base.id), "/pre-op?case=case%2F1");
-  assert.equal(withCaseContext("/accounting", base.id), "/accounting?case=case%2F1");
+  assert.equal(withCaseContext("/cashier", base.id), "/cashier?case=case%2F1");
   assert.equal(withCaseContext("/surgery/case%2F1", base.id), "/surgery/case%2F1");
+});
+
+
+test("a saved Post-Op plan is checked while the patient remains in Post-Op care", () => {
+  const record = { ...base, status: "Recovery", surgeryCompletedAt: stamp, transferredAt: stamp };
+  assert.notEqual(getCaseJourney(record).find((step) => step.label === "Post-Op").state, "complete");
+  const saved = { ...record, postOpCompleted: true };
+  assert.equal(getCaseJourney(saved).find((step) => step.label === "Post-Op").state, "complete");
+  assert.equal(saved.status, "Recovery");
 });

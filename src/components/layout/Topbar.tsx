@@ -513,8 +513,8 @@ function getPageContext(pathname: string): PageContext {
   }
 
   if (
-    pathname === "/accounting" ||
-    pathname.startsWith("/accounting/")
+    pathname === "/cashier" ||
+    pathname.startsWith("/cashier/")
   ) {
     return {
       title: "Cashier",

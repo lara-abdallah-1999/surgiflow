@@ -18,25 +18,10 @@
 .workspace-page [data-page-toolbar] input { width: min(270px, 100%); }
 .workspace-page :is(.fixed, .absolute)[class*="w-["] { max-width: calc(100vw - 24px); }
 .workspace-page .fixed:is(section, [role="dialog"]) { max-height: calc(100dvh - 24px); overflow-y: auto; }
-.workspace-page [data-workspace-panel="anesthesia"] { height: auto; min-height: 100%; grid-template-rows: auto auto auto; }
-.workspace-page
-  [data-workspace-panel="anesthesia"]
-  > section {
-  height: auto;
-  min-height: 0;
-  overflow: visible;
-}
-
-.workspace-page
-  [data-workspace-panel="anesthesia"]
-  > section:nth-child(2) {
-  height: auto;
-  min-height: 0;
-}
 .workspace-page [data-workspace-panel="history"] [class*="grid-rows-7"] { grid-template-rows: repeat(7, minmax(44px, 1fr)); }
 .workspace-page .preop-tab-content { overflow: auto; }
 .workspace-page .workspace-actions { height: auto; min-height: 44px; flex-wrap: wrap; gap: 8px; padding-block: 8px; }
-.workspace-page .postop-workspace { grid-template-rows: auto minmax(0, 1fr) auto; }
+.workspace-page .postop-workspace { grid-template-rows: auto minmax(0, 1fr); }
 .workspace-page .postop-cards {
   min-width: 0;
   width: 100%;
@@ -66,14 +51,19 @@
   min-width: 0;
   max-width: 100%;
 }
-.workspace-page .postop-card-body { overflow: auto; }
+.workspace-page .postop-card-body { min-width: 0; overflow-y: auto; overflow-x: hidden; }
+.workspace-page .postop-card-body .group\/item { flex-wrap: wrap; }
+.workspace-page .postop-card-body .group\/item > .flex-1 { flex-basis: 80px; }
+.workspace-page .postop-card-body .group\/item > .absolute { max-width: 100%; overflow-wrap: anywhere; }
 
 /* Compact patient identity stays visible; extra facts can be expanded. */
 .patient-context-header { position: relative; }
 .patient-context-toggle { position: absolute; right: 12px; top: 12px; z-index: 1; display: flex; align-items: center; gap: 4px; border-radius: 6px; border: 1px solid #ddd6fe; background: white; padding: 5px 8px; font-size: 11px; color: #6d28d9; }
 .patient-context-header[data-compact="true"][data-expanded="false"] .patient-context-grid { grid-template-columns: minmax(0, 1fr); }
 .patient-context-header[data-compact="true"][data-expanded="false"] .patient-context-grid > section:not(:first-child) { display: none; }
-.patient-context-header[data-compact="true"] .patient-context-grid > section:first-child { padding-right: 112px; }
+@media (max-width: 1023px) {
+  .patient-context-header[data-compact="true"] .patient-context-grid > section:first-child { padding-right: 40px; }
+}
 .patient-context-header[data-compact="true"][data-expanded="false"] .patient-context-grid > section:first-child > div { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 12px; }
 .patient-context-header[data-compact="true"][data-expanded="false"] .patient-context-grid p { margin-top: 0; }
 .patient-context-header[data-compact="true"][data-expanded="true"] .patient-context-grid { max-height: 45dvh; overflow: auto; }
@@ -84,7 +74,7 @@
 .app-sidebar { overflow-x: clip; }
 
 @container workspace (max-width: 1100px) {
-  .postop-cards {
+  .workspace-page .postop-cards {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -249,7 +239,6 @@
   [data-responsive-grid] > :is(.col-span-2, .row-span-2) { grid-column: auto; grid-row: auto; }
   [data-workspace-panel] { height: auto; min-height: 100%; }
   [data-workspace-panel] [data-responsive-grid] { height: auto; }
-  [data-workspace-panel="anesthesia"] > section:last-child { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   [data-workspace-panel="admission"] .grid-cols-6 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   [data-workspace-panel="admission"] :is(.col-span-2, .col-span-3, .col-span-4, .col-span-6) { grid-column: auto; }
   .preop-workspace { grid-template-columns: 86px minmax(0, 1fr); }
@@ -287,4 +276,113 @@
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+/* Keep clinical controls usable on short screens and scroll the page when needed. */
+.workspace-page .detail-workspace { min-height: 480px; flex-shrink: 0; }
+.app-main, .workspace-page > [data-workspace-page] { scrollbar-width: thin; scrollbar-color: #d0d5dd transparent; }
+
+/* Expanded records use their available width and grow with the content. */
+.expanded-list-dialog .group\/item { flex-wrap: wrap; }
+.expanded-list-dialog .group\/item > .flex-1 { flex-basis: 140px; }
+.expanded-list-dialog .truncate { white-space: normal; overflow: visible; overflow-wrap: anywhere; }
+
+/* Post-op summary stays in place; the plan below owns the only page scrollbar. */
+.workspace-page > [data-workspace-page="PostOpDetails"] { overflow: hidden; }
+.workspace-page .postop-scroll-content { scrollbar-width: thin; scrollbar-color: #d0d5dd transparent; }
+.workspace-page .postop-scroll-content .postop-cards {
+  flex: 1 0 auto;
+  grid-auto-rows: minmax(260px, auto);
+  overflow: visible;
+}
+.workspace-page .postop-scroll-content .postop-card-body { overflow: visible; }
+
+/* Compact windows use a flowing page instead of compressing and clipping panels. */
+@media (max-height: 700px) {
+
+  /* Only normal page content participates; dialogs keep their viewport positioning. */
+  .workspace-page > [data-workspace-page]:not([data-workspace-page="PostOpDetails"], [data-workspace-page="Patients"]) {
+    overflow-y: auto;
+  }
+  .workspace-page > [data-workspace-page]:not([data-workspace-page="PostOpDetails"], [data-workspace-page="Patients"])
+    :is(div, section, main, aside, form):is(.min-h-0, .h-full, [data-workspace-panel], [data-table-body]):not(.fixed, .fixed *, .absolute, .absolute *, [role="dialog"], [role="dialog"] *, .anesthesia-panel, .anesthesia-panel *, .preop-tabs, .preop-tabs *) {
+    height: auto;
+    min-height: min-content;
+    flex-shrink: 0;
+    flex-basis: auto;
+    overflow: visible;
+  }
+}
+@container workspace (max-width: 850px) {
+
+  /* Only normal page content participates; dialogs keep their viewport positioning. */
+  .workspace-page > [data-workspace-page]:not([data-workspace-page="PostOpDetails"], [data-workspace-page="Patients"]) {
+    overflow-y: auto;
+  }
+  .workspace-page > [data-workspace-page]:not([data-workspace-page="PostOpDetails"], [data-workspace-page="Patients"])
+    :is(div, section, main, aside, form):is(.min-h-0, .h-full, [data-workspace-panel], [data-table-body]):not(.fixed, .fixed *, .absolute, .absolute *, [role="dialog"], [role="dialog"] *, .anesthesia-panel, .anesthesia-panel *, .preop-tabs, .preop-tabs *) {
+    height: auto;
+    min-height: min-content;
+    flex-shrink: 0;
+    flex-basis: auto;
+    overflow: visible;
+  }
+}
+
+/* Tab navigation has its own dimensions, independent of the selected panel. */
+.workspace-page .preop-workspace .preop-tabs { align-self: start; height: auto; min-height: 0; flex: none; }
+.workspace-page .preop-tabs > .grid { flex: none; grid-template-rows: repeat(4, 96px); }
+.workspace-page .preop-tabs button { height: 96px; min-height: 96px; }
+@container workspace (max-width: 600px) {
+  .workspace-page .preop-tabs { width: 100%; }
+  .workspace-page .preop-tabs > .grid { grid-template-rows: 96px; }
+}
+
+/* Anesthesia uses content-sized cards and consistently stacked form fields. */
+.workspace-page .anesthesia-panel { container: anesthesia / inline-size; height: auto; min-height: 0; padding: 8px; overflow: visible; }
+.anesthesia-panel > section { height: auto; min-height: 0; overflow: visible; border: 0; }
+.anesthesia-panel > section + section { margin-top: 8px; }
+.anesthesia-panel :is(div, label, input, textarea) { min-width: 0; }
+.anesthesia-history-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.anesthesia-exam-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: start; gap: 8px; }
+.anesthesia-plan-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 2fr); gap: 8px; }
+.anesthesia-panel .anesthesia-plan-grid > div { justify-content: start; align-content: start; gap: 8px; padding: 8px; border: 1px solid #e2e8f0; border-radius: 8px; }
+.anesthesia-panel .anesthesia-field { display: flex; flex-direction: column; align-items: stretch; gap: 4px; }
+.anesthesia-panel input { width: 100%; min-height: 28px; flex: none; }
+.anesthesia-panel .anesthesia-field > input { margin-top: 0; }
+.anesthesia-panel .anesthesia-field > div { margin-top: 0; min-height: 28px; gap: 4px; }
+.anesthesia-panel .anesthesia-field > div > input { width: 0; flex: 1 1 0%; }
+.anesthesia-panel textarea { width: 100%; min-height: 60px; }
+.anesthesia-functional-grid > button { min-height: 38px; padding-block: 6px; }
+.anesthesia-panel .anesthesia-plan-grid button { height: auto; min-height: 28px; }
+.anesthesia-panel .anesthesia-plan-grid p { margin: 0; }
+@container anesthesia (max-width: 700px) {
+  .anesthesia-history-grid, .anesthesia-exam-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .anesthesia-exam-grid > div:last-child { grid-column: 1 / -1; }
+}
+@container anesthesia (max-width: 520px) {
+  .anesthesia-history-grid, .anesthesia-exam-grid, .anesthesia-plan-grid, .anesthesia-panel .anesthesia-vitals-grid { grid-template-columns: minmax(0, 1fr); }
+  .anesthesia-exam-grid > div:last-child { grid-column: auto; }
+}
+
+.anesthesia-panel :is(.anesthesia-functional-grid, .anesthesia-findings-grid, .anesthesia-vitals-grid) { padding: 8px; gap: 8px; }
+.anesthesia-panel .anesthesia-field > div > input { min-height: 0; }
+.anesthesia-history-grid > div > div:first-child,
+.anesthesia-exam-grid > div > div:first-child { height: 28px; }
+@container anesthesia (max-width: 900px) {
+  .anesthesia-plan-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 2fr); }
+}
+@container anesthesia (max-width: 700px) {
+  .anesthesia-plan-grid { grid-template-columns: minmax(0, 1fr); }
+}
+@container anesthesia (max-width: 520px) {
+  .anesthesia-plan-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Pagination measures a bounded viewport, never the height of the current rows. */
+.workspace-page > [data-workspace-page="Patients"] { min-height: 360px; }
+
+.anesthesia-group-card { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+@container anesthesia (max-width: 520px) {
+  .anesthesia-group-card { grid-template-columns: minmax(0, 1fr); }
 }

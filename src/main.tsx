@@ -9,7 +9,7 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ToastProvider>
       <App />
-      <Toaster position="top-right" richColors />
+      <Toaster position="bottom-right" style={{ zIndex: 1000, width: "410px", maxWidth: "calc(100vw - 40px)" }} />
     </ToastProvider>
   </StrictMode>,
 )

@@ -1,3 +1,4 @@
+import { HoverDetailsPanel } from "./HoverDetailsPanel";
 import { type PostOpVisit, type VisitStatus } from "../types";
 import { useState } from "react";
 import { CalendarDays, X } from "lucide-react";
@@ -81,7 +82,7 @@ export function VisitRow({
       </div>
 
       {showHoverDetails && (
-        <div className="pointer-events-none invisible absolute bottom-[calc(100%+6px)] left-0 z-[120] w-[310px] translate-y-1 rounded-xl border border-slate-200 bg-white p-2.5 opacity-0 shadow-[0_12px_30px_rgba(15,23,42,0.16)] transition-all duration-150 group-hover/item:visible group-hover/item:translate-y-0 group-hover/item:opacity-100">
+        <HoverDetailsPanel>
           <div data-responsive-grid="2" className="grid grid-cols-2 gap-x-3 gap-y-1.5">
             <HoverDetail
               label="Status"
@@ -128,7 +129,7 @@ export function VisitRow({
               />
             </div>
           </div>
-        </div>
+        </HoverDetailsPanel>
       )}
 
       <StatusPopover

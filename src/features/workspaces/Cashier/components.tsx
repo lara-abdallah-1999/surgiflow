@@ -1,5 +1,5 @@
 export { ModernDatePicker } from "./components/ModernDatePicker";
-export { AccountingStatCard } from "./components/AccountingStatCard";
+export { CashierStatCard } from "./components/CashierStatCard";
 export { SortableHeader } from "./components/SortableHeader";
 export { FilterSection } from "./components/FilterSection";
 export { FilterPill } from "./components/FilterPill";

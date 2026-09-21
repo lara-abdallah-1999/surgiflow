@@ -24,7 +24,7 @@ test("arrival guidance uses the real encoded Reception route", () => {
 });
 test("partial payment blocks admission and targets Cashier's existing highlight state", () => {
   const result = run({ status: "Payment Pending", paidAmount: 50, paymentStatus: "Partially Paid" });
-  assert.equal(result.nextAction.destination.path, "/accounting");
+  assert.equal(result.nextAction.destination.path, "/cashier");
   assert.deepEqual(result.nextAction.destination.state, { highlightSurgeryId: "case/1" });
   assert.equal(result.items.find((item) => item.id === "payment").blocking, true);
 });

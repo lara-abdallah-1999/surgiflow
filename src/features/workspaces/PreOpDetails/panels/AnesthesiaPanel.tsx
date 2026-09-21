@@ -16,14 +16,14 @@ type Props = {
 };
 
 export function AnesthesiaPanel({ anesthesiaReview, setReviewValue, setAnesthesiaReview, anesthesiaExam, setAnesthesiaExam, handleSelectAnesthesia, anesthesia, selectedPlanConfirmed, confirmAnesthesiaPlan }: Props) {
-  return (<section data-workspace-panel="anesthesia" className="grid h-full min-h-0 grid-rows-[116px_minmax(0,1fr)_104px] gap-0 overflow-hidden bg-white">
+  return (<section data-workspace-panel="anesthesia" className="anesthesia-panel bg-white">
 
           {/* =========================================================
               1. MEDICAL HISTORY REVIEW
           ========================================================== */}
           <section className="flex min-h-0 flex-col overflow-hidden border-b border-purple-100 bg-white">
 
-            <div data-responsive-grid="4" className="grid min-h-0 flex-1 grid-cols-4 gap-2 px-2 py-1.5">
+            <div className="anesthesia-history-grid">
               {[
                 {
                   title: "Core Systems",
@@ -66,7 +66,7 @@ export function AnesthesiaPanel({ anesthesiaReview, setReviewValue, setAnesthesi
                       gridTemplateRows: `repeat(${Math.max(
                         group.items.length,
                         1,
-                      )}, minmax(0, 1fr))`,
+                      )}, minmax(26px, auto))`,
                     }}
                   >
                     {group.items.map((item, index) => {
@@ -90,7 +90,7 @@ export function AnesthesiaPanel({ anesthesiaReview, setReviewValue, setAnesthesi
                               checked ? "" : "yes",
                             )
                           }
-                          className={`group flex min-h-0 items-center gap-2 px-2.5 text-left transition ${
+                          className={`group flex min-h-[26px] items-center gap-2 px-2.5 py-1 text-left transition ${
                             index < group.items.length - 1
                               ? "border-b border-slate-100"
                               : ""
@@ -145,7 +145,7 @@ export function AnesthesiaPanel({ anesthesiaReview, setReviewValue, setAnesthesi
           ========================================================== */}
           <section className="flex min-h-0 flex-col overflow-hidden border-b border-purple-100 bg-white">
 
-            <div data-responsive-grid="3" className="grid min-h-0 flex-1 grid-cols-[0.82fr_1.03fr_1.25fr] gap-2 px-2 py-1.5">
+            <div className="anesthesia-exam-grid">
               {/* FUNCTIONAL STATUS */}
               <div className="flex min-h-0 flex-col overflow-hidden rounded-lg border border-slate-200 bg-white">
                 <div className="flex h-8 shrink-0 items-center gap-2 border-b border-slate-100 bg-slate-50/65 px-2.5">
@@ -158,7 +158,7 @@ export function AnesthesiaPanel({ anesthesiaReview, setReviewValue, setAnesthesi
                   </p>
                 </div>
 
-                <div data-responsive-grid="2" className="grid min-h-0 flex-1 grid-cols-2 grid-rows-2 gap-1.5 p-2">
+                <div className="anesthesia-functional-grid grid grid-cols-2 gap-2 p-4">
                   {[
                     {
                       key: "functionalCapacity" as const,
@@ -197,7 +197,7 @@ export function AnesthesiaPanel({ anesthesiaReview, setReviewValue, setAnesthesi
                             }),
                           )
                         }
-                        className={`flex min-h-0 items-center gap-2 rounded-md border px-2 text-left transition ${
+                        className={`flex min-h-0 items-center gap-2 rounded-md border px-2 pb-2 text-left transition ${
                           checked
                             ? "border-purple-200 bg-purple-50/45"
                             : "border-slate-200 bg-slate-50/55 hover:border-purple-200 hover:bg-purple-50/20"
@@ -237,7 +237,7 @@ export function AnesthesiaPanel({ anesthesiaReview, setReviewValue, setAnesthesi
                   </p>
                 </div>
 
-                <div data-responsive-grid="2" className="grid grid-cols-2 gap-x-3 gap-y-2 p-3">
+                <div className="anesthesia-findings-grid grid grid-cols-2 gap-3 p-3">
                   {[
                     ["airway", "Airway"],
                     ["dental", "Dental"],
@@ -246,9 +246,9 @@ export function AnesthesiaPanel({ anesthesiaReview, setReviewValue, setAnesthesi
                   ].map(([key, label]) => (
                     <label
                       key={key}
-                      className="flex min-h-0 min-w-0 items-center gap-2"
+                      className="anesthesia-field"
                     >
-                      <span className="w-[48px] shrink-0 text-[7.5px] font-bold text-slate-500">
+                      <span className="text-[8px] font-bold text-slate-500">
                         {label}
                       </span>
 
@@ -287,9 +287,9 @@ export function AnesthesiaPanel({ anesthesiaReview, setReviewValue, setAnesthesi
                   </p>
                 </div>
 
-                <div data-responsive-grid="2" className="grid grid-cols-[0.55fr_1.45fr] gap-3 p-3">
+                <div className="anesthesia-vitals-grid grid grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)] gap-3 p-3">
                   <div className="grid content-start gap-2">
-                    <label className="min-h-0">
+                    <label className="anesthesia-field">
                       <span className="block text-[8px] font-bold tracking-wide text-slate-600">
                         Height
                       </span>
@@ -319,7 +319,7 @@ export function AnesthesiaPanel({ anesthesiaReview, setReviewValue, setAnesthesi
                       </div>
                     </label>
 
-                    <label className="min-h-0">
+                    <label className="anesthesia-field">
                       <span className="block text-[8px] font-bold tracking-wide text-slate-600">
                         Weight
                       </span>
@@ -351,7 +351,7 @@ export function AnesthesiaPanel({ anesthesiaReview, setReviewValue, setAnesthesi
                   </div>
 
                   <div className="grid min-h-0 grid-rows-2 gap-1.5">
-                    <label className="min-h-0">
+                    <label className="anesthesia-field">
                       <span className="block text-[8px] font-bold tracking-wide text-slate-600">
                         Current medications
                       </span>
@@ -374,7 +374,7 @@ export function AnesthesiaPanel({ anesthesiaReview, setReviewValue, setAnesthesi
                       />
                     </label>
 
-                    <label className="min-h-0">
+                    <label className="anesthesia-field">
                       <span className="block text-[8px] font-bold tracking-wide text-slate-600">
                         Prior / Family Anesthesia
                       </span>
@@ -405,10 +405,10 @@ export function AnesthesiaPanel({ anesthesiaReview, setReviewValue, setAnesthesi
           {/* =========================================================
               3. ANESTHESIA PLAN & CLEARANCE
           ========================================================== */}
-          <section className="grid min-h-0 grid-cols-[1.18fr_0.92fr_0.9fr_1fr_150px] items-stretch overflow-hidden border-t border-purple-100 bg-white">
+          <section className="anesthesia-plan-grid">
             {/* PLANNED TYPE */}
             <div className="flex min-w-0 flex-col justify-center border-r border-slate-100 px-2.5 py-2">
-              <p className="mb-2 block text-[8px] font-bold tracking-wide text-slate-600">
+              <p className="mb-5 pb-3 pt-1 block text-[8px] font-bold tracking-wide text-slate-600">
                 Planned anesthesia
               </p>
 
@@ -432,14 +432,15 @@ export function AnesthesiaPanel({ anesthesiaReview, setReviewValue, setAnesthesi
               </div>
             </div>
 
+            <div className="anesthesia-group-card" role="group" aria-label="ASA Class, NPO, EKG and Labs">
             {/* ASA + NPO */}
-            <div className="grid min-w-0 grid-rows-[1fr_auto] border-r border-slate-100 px-2 py-2">
+            <div className="grid min-w-0 content-start gap-2">
               <div>
-                <p className="mb-2 block text-[8px] font-bold tracking-wide text-slate-600">
+                <p className="mb-3 pb-1 block text-[8px] font-bold tracking-wide text-slate-600">
                   ASA Class
                 </p>
 
-                <div className="flex h-7 overflow-hidden rounded-md border border-slate-200 bg-slate-50">
+                <div className="flex h-7 mb-1.5 overflow-hidden rounded-md border border-slate-200 bg-slate-50">
                   {[
                     "I",
                     "II",
@@ -508,8 +509,8 @@ export function AnesthesiaPanel({ anesthesiaReview, setReviewValue, setAnesthesi
             </div>
 
             {/* EKG + LABS */}
-            <div className="grid min-w-0 grid-rows-2 gap-1.5 border-r border-slate-100 px-2 py-2">
-              <label data-responsive-grid="2" className="grid min-w-0 grid-cols-[28px_minmax(0,1fr)] items-center gap-1.5">
+            <div className="grid min-w-0 content-start gap-2">
+              <label className="anesthesia-field">
                 <span className="block text-[8px] font-bold tracking-wide text-slate-600">
                   EKG
                 </span>
@@ -529,7 +530,7 @@ export function AnesthesiaPanel({ anesthesiaReview, setReviewValue, setAnesthesi
                 />
               </label>
 
-              <label data-responsive-grid="2" className="grid min-w-0 grid-cols-[28px_minmax(0,1fr)] items-center gap-1.5">
+              <label className="anesthesia-field">
                 <span className="block text-[8px] font-bold tracking-wide text-slate-600">
                   Labs
                 </span>
@@ -550,9 +551,12 @@ export function AnesthesiaPanel({ anesthesiaReview, setReviewValue, setAnesthesi
               </label>
             </div>
 
+            </div>
+
+            <div className="anesthesia-group-card" role="group" aria-label="Comments and Plan">
             {/* COMMENTS */}
-            <div className="flex min-w-0 flex-col justify-center border-r border-slate-100 px-2 py-2">
-              <p className="mb-1 block text-[8px] font-bold tracking-wide text-slate-600">
+            <div className="flex min-w-0 flex-col gap-2">
+              <p className="mb-1 pb-1 block text-[8px] font-bold tracking-wide text-slate-600">
                 Comments
               </p>
 
@@ -572,7 +576,7 @@ export function AnesthesiaPanel({ anesthesiaReview, setReviewValue, setAnesthesi
             </div>
 
             {/* PLAN — explicit confirmation checkbox */}
-            <div className="flex min-w-0 flex-col justify-center px-2.5 py-2">
+            <div className="flex min-w-0 flex-col gap-2">
               <p className="text-[7px] font-bold uppercase tracking-wide text-slate-400">
                 Plan
               </p>
@@ -637,6 +641,7 @@ export function AnesthesiaPanel({ anesthesiaReview, setReviewValue, setAnesthesi
                   </span>
                 </span>
               </button>
+            </div>
             </div>
           </section>
         </section>);

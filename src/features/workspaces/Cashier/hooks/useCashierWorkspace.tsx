@@ -6,7 +6,7 @@ import { ROW_HEIGHT } from "../config";
 import { type Period,type SortDirection,type SortKey,type ToastState } from "../types";
 import { getPatientMrn,getSortValue,getSurgeryProcedures,isDateInPeriod } from "../utils";
 
-export function useAccountingWorkspace() {
+export function useCashierWorkspace() {
   const location = useLocation();
   const navigate = useNavigate();
   const [caseParams, setCaseParams] = useSearchParams();
@@ -249,7 +249,7 @@ export function useAccountingWorkspace() {
 
     /*
      * Make sure the transferred patient is visible even if the
-     * Accounting page had filters left over from a previous visit.
+     * Cashier page had filters left over from a previous visit.
      */
     setSearch("");
     setSelectedDoctors([]);

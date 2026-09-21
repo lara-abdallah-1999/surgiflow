@@ -60,7 +60,7 @@ export function commandDestination(target: string, surgery: Surgery, analysis: C
   const path = `/surgery/${encodeURIComponent(surgery.id)}`;
   if (target === "next step") return analysis.nextAction?.destination ?? null;
   if (["pre-op", "preop"].includes(target)) return { path: `/pre-op/${encodeURIComponent(surgery.id)}`, label: "Open Pre-Op" };
-  if (["payment", "cashier"].includes(target)) return { path: "/accounting", label: "Open Cashier", state: { highlightSurgeryId: surgery.id } };
+  if (["payment", "cashier"].includes(target)) return { path: "/cashier", label: "Open Cashier", state: { highlightSurgeryId: surgery.id } };
   const focus: Record<string, CopilotDestination["focus"]> = { anesthesia: "anesthesia", "site and cut": "cut", "site & cut": "cut", equipment: "equipment", "recovery assessment": "assessment", "patient awakening": "awakening", "ready for transfer": "transfer", "recovery notes": "notes", surgery: "milestones" };
   return { path, label: `Open ${target}`, section: ["recovery", "recovery assessment", "patient awakening", "ready for transfer", "recovery notes"].includes(target) ? "recovery" : "surgery", focus: focus[target], equipmentFilter: filter };
 }

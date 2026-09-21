@@ -1,6 +1,6 @@
 import ts from 'typescript';
 import fs from 'node:fs';
-for (const page of ['Accounting','PostOp','PreOp','PreOpDetails','Recovery']) {
+for (const page of ['Cashier','PostOp','PreOp','PreOpDetails','Recovery']) {
   const file=`src/pages/${page}.tsx`;
   let source=fs.readFileSync(file,'utf8');
   const ast=ts.createSourceFile(file,source,ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX);

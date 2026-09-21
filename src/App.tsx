@@ -7,7 +7,7 @@ const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Patients = lazy(() => import("./pages/Patients"));
 const PatientDetails = lazy(() => import("./pages/PatientDetails"));
 const WaitingList = lazy(() => import("./pages/WaitingList"));
-const Accounting = lazy(() => import("./pages/Accounting"));
+const Cashier = lazy(() => import("./pages/Cashier"));
 const PreOp = lazy(() => import("./pages/PreOp"));
 const Surgery = lazy(() => import("./pages/Surgery"));
 const PostOp = lazy(() => import("./pages/PostOp"));
@@ -51,8 +51,8 @@ function App() {
           />
 
           <Route
-            path="/accounting"
-            element={<Accounting />}
+            path="/cashier"
+            element={<Cashier />}
           />
 
           <Route

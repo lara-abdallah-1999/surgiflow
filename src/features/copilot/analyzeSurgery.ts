@@ -12,7 +12,7 @@ export function analyzeSurgery(
   const record = asRecord(surgery);
   const id = encodeURIComponent(surgery.id);
   const reception = { path: `/reception/${id}`, label: "Open Reception" };
-  const cashier = { path: "/accounting", label: "Open Cashier", state: { highlightSurgeryId: surgery.id } };
+  const cashier = { path: "/cashier", label: "Open Cashier", state: { highlightSurgeryId: surgery.id } };
   const admission = { path: `/pre-op/${id}`, label: "Open Pre-Op admission" };
   const preop = (section?: "pre-tests" | "anesthesia"): CopilotDestination => ({ path: `/pre-op/${id}`, label: "Open Pre-Op", section });
   const operating = (section: "surgery" | "recovery" = "surgery"): CopilotDestination => ({ path: `/surgery/${id}`, label: section === "recovery" ? "Open Surgery · Recovery" : "Open Surgery", section });

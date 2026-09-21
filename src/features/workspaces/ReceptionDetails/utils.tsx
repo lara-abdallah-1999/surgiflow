@@ -1,93 +1,11 @@
 import { type ReceptionToastType, type Period, type PatientStatus, type AdmissionFormItem, type ConsentFormDetails, type ConsentAnswer, type ReceptionConsentApproval, type Patient, type CashierChargeRow } from "./types";
-import { toast } from "sonner";
-import { CheckCircle2, AlertTriangle, HeartPulse, X } from "lucide-react";
+import { showNotification } from "../../../components/notifications/showNotification";
 import { admissionFormItems } from "./config";
 
 
-export function showReceptionToast(
-  type: ReceptionToastType,
-  title: string,
-  message: string,
-) {
-  const isSuccess = type === "success";
-  const isWarning = type === "warning";
-
-  const borderClass = isSuccess
-    ? "border-emerald-200"
-    : isWarning
-      ? "border-amber-200"
-      : "border-red-200";
-
-  const accentClass = isSuccess
-    ? "bg-emerald-500"
-    : isWarning
-      ? "bg-amber-500"
-      : "bg-red-500";
-
-  const iconClass = isSuccess
-    ? "bg-emerald-50 text-emerald-600"
-    : isWarning
-      ? "bg-amber-50 text-amber-600"
-      : "bg-red-50 text-red-600";
-
-  const titleClass = isSuccess
-    ? "text-emerald-700"
-    : isWarning
-      ? "text-amber-700"
-      : "text-red-700";
-
-  toast.custom(
-    (toastId) => (
-      <div className="w-[410px] max-w-[calc(100vw-40px)]">
-        <div
-          className={`relative overflow-hidden rounded-xl border bg-white shadow-[0_18px_45px_rgba(15,23,42,0.18)] ${borderClass}`}
-        >
-          <span
-            className={`absolute bottom-0 left-0 top-0 w-1 ${accentClass}`}
-          />
-
-          <div className="flex items-start gap-3 py-3.5 pl-4 pr-3.5">
-            <div
-              className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${iconClass}`}
-            >
-              {isSuccess ? (
-                <CheckCircle2 size={17} />
-              ) : isWarning ? (
-                <AlertTriangle size={17} />
-              ) : (
-                <HeartPulse size={17} />
-              )}
-            </div>
-
-            <div className="min-w-0 flex-1">
-              <p className={`text-[12px] font-bold ${titleClass}`}>
-                {title}
-              </p>
-
-              <p className="mt-0.5 whitespace-pre-line text-[9px] leading-4 text-slate-500">
-                {message}
-              </p>
-            </div>
-
-            <button
-              type="button"
-              onClick={() => toast.dismiss(toastId)}
-              className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-slate-300 transition hover:bg-slate-50 hover:text-slate-500"
-              aria-label="Dismiss notification"
-            >
-              <X size={13} />
-            </button>
-          </div>
-        </div>
-      </div>
-    ),
-    {
-      duration: 5000,
-      position: "bottom-right",
-    },
-  );
+export function showReceptionToast(type: ReceptionToastType, title: string, message: string) {
+  showNotification({ type, title, message }, { duration: 5000 });
 }
-
 
 export function getInitials(name: string) {
   return name

@@ -14,7 +14,7 @@ import { useSurgeryStore } from "../store/surgeryStore";
 
 
 export default function PreOpDetails() {
-  const { selected, navigate, hydratedWorkspaceId, notes, addClinicalNote, selectedPlanConfirmed, setActiveTab, toast, setToast, showToast, workspaceHeadingRef, closeWorkspace, hasAdmissionTime, admissionDate, anesthesiaConfirmed, activeTab, preOpAssessmentProgress, testProgress, anesthesiaProgress, requiredSuppliesProgress, preOpReview, setReviewValue, setPreOpReview, setReviewDetail, completedTests, toggleValue, setCompletedTests, safety, exceptions, setShowExceptionForm, showExceptionForm, exceptionText, setExceptionText, addException, removeException, setSafety, anesthesiaReview, setAnesthesiaReview, anesthesiaExam, setAnesthesiaExam, handleSelectAnesthesia, anesthesia, confirmAnesthesiaPlan, setIntraSection, intraSection, setSupplySection, setSupplyCategory, supplySection, additionalSupplies, filteredSupplies, updateSupply, noteText, setNoteText, allPreOpReady, saveProgress, confirmReady } = usePreOpDetailsWorkspace();
+  const { selected, navigate, hydratedWorkspaceId, notes, addClinicalNote, selectedPlanConfirmed, setActiveTab, toast, setToast, showToast, workspaceHeadingRef, hasAdmissionTime, admissionDate, activeTab, preOpAssessmentProgress, testProgress, anesthesiaProgress, requiredSuppliesProgress, preOpReview, setReviewValue, setPreOpReview, setReviewDetail, completedTests, toggleValue, setCompletedTests, safety, exceptions, setShowExceptionForm, showExceptionForm, exceptionText, setExceptionText, addException, removeException, setSafety, anesthesiaReview, setAnesthesiaReview, anesthesiaExam, setAnesthesiaExam, handleSelectAnesthesia, anesthesia, confirmAnesthesiaPlan, setIntraSection, intraSection, setSupplySection, setSupplyCategory, supplySection, additionalSupplies, filteredSupplies, updateSupply, noteText, setNoteText, allPreOpReady, saveProgress, confirmReady } = usePreOpDetailsWorkspace();
 
 if (!selected) 
     {
@@ -68,17 +68,13 @@ if (!selected)
       <WorkspaceNotification notice={toast} onClose={() => setToast(null)} />
 
       <PreOpAdmissionStep surgery={selected} onMessage={(message) => showToast("success", "OR admission", message)} />
-      <div className="flex h-full min-h-0 min-w-0 flex-col gap-2">
+      <div className="detail-workspace flex h-full min-h-0 min-w-0 flex-col gap-2">
         {/* FULL-PAGE PATIENT WORKSPACE */}
             <section aria-label="Patient pre-op workspace" className="flex h-full min-h-0 min-w-0 flex-1 flex-col">
               <div className="flex h-full min-h-0 min-w-0 flex-col gap-2">
 
                 <h2 ref={workspaceHeadingRef} tabIndex={-1} className="sr-only">Pre-Op: {getPatientName(selected)}</h2>
-                <PatientContextTools>
-                  <button type="button" onClick={closeWorkspace} aria-label="Back to Pre-Op patients" className="flex h-7 items-center gap-1 rounded-lg border border-blue-100 bg-white px-2 text-blue-600 hover:bg-blue-50"><ArrowLeft size={13} /> Back</button>
-                  <span>OR admission: <strong>{hasAdmissionTime && admissionDate ? admissionDate.toLocaleString() : "Not recorded"}</strong></span>
-                  <span>Anesthesia plan: <strong>{anesthesiaConfirmed ? selected.anesthesiaType : "Not confirmed"}</strong></span>
-                </PatientContextTools>
+                <PatientContextTools label="OR admission">{hasAdmissionTime && admissionDate ? admissionDate.toLocaleString() : "Not recorded"}</PatientContextTools>
 
                 {/* =====================================================
                     MAIN CONTENT

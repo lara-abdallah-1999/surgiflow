@@ -92,7 +92,7 @@ export function AiConversation({ caseId, context, disabled = false, onNavigate, 
     if (!record || record.patientName !== proposal.patientName || (record.mrn ?? null) !== proposal.mrn) { setStatus('Patient identity changed. Search again.'); return; }
     // Only backend-generated known journey routes; never follow a model-provided URL.
     const id = encodeURIComponent(record.id);
-    if (![`/reception/${id}`, `/accounting?case=${id}`, '/accounting', `/pre-op/${id}`, `/surgery/${id}`, `/post-op/${id}`].includes(proposal.destination.path)) { setStatus('Navigation target is not allowed.'); return; }
+    if (![`/reception/${id}`, `/cashier?case=${id}`, '/cashier', `/pre-op/${id}`, `/surgery/${id}`, `/post-op/${id}`].includes(proposal.destination.path)) { setStatus('Navigation target is not allowed.'); return; }
     onNavigate(proposal);
   }
   return <section aria-label="AI Surgery Copilot" className="space-y-3 rounded-2xl border border-violet-200 bg-violet-50/40 p-4" data-record-revision={revision}>

@@ -21,7 +21,7 @@ try {
   const pages = [
     ["Dashboard", "/"], ["Patients", "/patients"], ["PatientDetails", "/patients/:id"],
     ["Planning", "/planning"], ["Planning2", "/planning2"], ["WaitingList", "/waiting-list"],
-    ["Accounting", "/accounting"], ["PreOp", "/pre-op"], ["PreOpDetails", "/pre-op/:id"],
+    ["Cashier", "/cashier"], ["PreOp", "/pre-op"], ["PreOpDetails", "/pre-op/:id"],
     ["Surgery", "/surgery"], ["SurgeryDetails", "/surgery/:id"], ["Recovery", "/recovery"],
     ["PostOp", "/post-op"], ["PostOpDetails", "/post-op/:id"],
     ["SurgeryReception", "/reception"], ["ReceptionDetails", "/reception/:id"], ["schedule", "/schedule"],

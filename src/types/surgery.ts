@@ -91,6 +91,8 @@ export type Surgery = {
   // Surgery
   surgeryStartedAt?: string;
   surgeryCompletedAt?: string;
+  transferredAt?: string;
+  postOpCompleted?: boolean;
   durationSeconds?: number;
   durationMinutes?: number;
   notes?: string;

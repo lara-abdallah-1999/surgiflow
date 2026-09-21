@@ -54,9 +54,9 @@ export function WorkspaceCard({
     tones[tone];
 
   return (
-    <div className="flex min-h-0 flex-col overflow-visible rounded-xl border border-slate-200 bg-white">
+    <div className="flex min-h-0 min-w-0 flex-col overflow-visible rounded-xl border border-slate-200 bg-white">
       <div
-        className={`flex h-11 shrink-0 items-center justify-between border-b px-3 ${style.header}`}
+        className={`flex min-h-11 shrink-0 flex-wrap items-center justify-between gap-1 py-1 border-b px-3 ${style.header}`}
       >
         <div className="flex min-w-0 items-center gap-2">
           <div

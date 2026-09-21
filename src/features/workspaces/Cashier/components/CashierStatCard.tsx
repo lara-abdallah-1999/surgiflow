@@ -7,7 +7,7 @@ import { type ReactNode } from "react";
 /* TABLE / UI HELPERS                                                         */
 /* ========================================================================== */
 
-export function AccountingStatCard({
+export function CashierStatCard({
   label,
   value,
   icon,

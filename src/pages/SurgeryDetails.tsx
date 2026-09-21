@@ -1,3 +1,4 @@
+import { showNotification } from "../components/notifications/showNotification";
 import { ArrowLeft,Barcode,Check,CheckCircle2,ChevronDown,FileText,Filter,Flag,HeartPulse,PackageCheck,Play,Receipt,RotateCcw,Scissors,Search,ShieldCheck,Syringe } from "lucide-react";
 import { useEffect,useMemo,useRef,useState } from "react";
 import { useLocation,useNavigate,useParams } from "react-router-dom";
@@ -493,19 +494,23 @@ export default function SurgeryDetails() {
 
   const confirmTransferred = () => {
     if (!canTransfer) return;
-
-    const now = new Date().toISOString();
-    setTransferredAt(now);
-
-    updateSurgery(
-      surgery.id,
-      {
-        transferredAt: now,
-        status: "Recovery",
-      } as any,
-    );
+    try {
+      const now = new Date().toISOString();
+      updateSurgery(surgery.id, { transferredAt: now, status: "Recovery" });
+      setTransferredAt(now);
+      showNotification({
+        type: "success",
+        title: "Patient transferred successfully",
+        message: surgery.patientName + " has been transferred from recovery to Post-Op care.",
+      });
+    } catch {
+      showNotification({
+        type: "error",
+        title: "Transfer not saved",
+        message: "The transfer could not be saved. Please try again.",
+      });
+    }
   };
-
   // Copilot receives the exact existing control gates and handlers. It owns no workflow state.
   const isCurrentCopilotCase = () => copilotHydratedCaseId === surgery.id && useSurgeryStore.getState().surgeries.find((item) => item.id === surgery.id) === surgery;
   const copilotActions = createSurgeryActions({
@@ -552,16 +557,12 @@ export default function SurgeryDetails() {
         focusCopilotTarget(destination.focus);
         return true;
       }} />
-      <div className="mx-auto flex h-full min-h-0 max-w-[1500px] flex-col p-1.5">
+      <div className="detail-workspace mx-auto flex h-full min-h-0 max-w-[1500px] flex-col p-1.5">
         {/* ------------------------------------------------------------------ */}
         {/* Patient / Surgery Header — same design language as Pre-Op           */}
         {/* ------------------------------------------------------------------ */}
 
-        <PatientContextTools>
-          <button type="button" onClick={() => navigate(-1)} aria-label="Back to surgeries" className="flex h-7 items-center gap-1 rounded-lg border border-violet-100 bg-white px-2 text-violet-600 hover:bg-violet-50"><ArrowLeft size={13} /> Back</button>
-          <span>Duration: <strong className="font-mono tabular-nums">{isCompleted ? completedDuration : isInProgress ? formatDuration(elapsed) : "Not started"}</strong></span>
-          <span className={everyProcedureHasSite ? "text-emerald-700" : "text-amber-700"}>{everyProcedureHasSite ? "All sites recorded" : "Site missing"}</span>
-        </PatientContextTools>
+        <PatientContextTools label="Duration">{isCompleted ? completedDuration : isInProgress ? formatDuration(elapsed) : "Not started"}</PatientContextTools>
 
         {/* ------------------------------------------------------------------ */}
         {/* Vertical workspace tabs                                            */}

@@ -9,7 +9,7 @@ socket.addEventListener('message', event => { const data=JSON.parse(event.data);
 const call = (method,params={}) => new Promise((resolve,reject)=>{ const id=++serial;pending.set(id,{resolve,reject});socket.send(JSON.stringify({id,method,params})); });
 const evaluate = async expression => {const result=await call('Runtime.evaluate',{expression,awaitPromise:true,returnByValue:true});if(result.exceptionDetails)throw Error(result.exceptionDetails.exception?.description);return result.result.value;};
 await call('Runtime.enable');await call('Page.enable');await mkdir('.ui-checks',{recursive:true});
-const routes = process.argv.slice(2); const failures = []; const paths = routes.length ? routes : ['/', '/patients', '/pre-op/SRG-2048', '/accounting?case=SRG-2048', '/surgery/SRG-2048', '/post-op/SRG-2048', '/planning', '/schedule'];
+const routes = process.argv.slice(2); const failures = []; const paths = routes.length ? routes : ['/', '/patients', '/pre-op/SRG-2048', '/cashier?case=SRG-2048', '/surgery/SRG-2048', '/post-op/SRG-2048', '/planning', '/schedule'];
 for (const width of (process.env.UI_CHECK_WIDTHS ?? "1440,390,320").split(",").map(Number)) {
  await call('Emulation.setDeviceMetricsOverride',{width,height:900,deviceScaleFactor:1,mobile:false});
  for(const path of paths){
